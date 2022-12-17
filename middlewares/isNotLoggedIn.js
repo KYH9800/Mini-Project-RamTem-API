@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-const {User} = require("../models");
+const {Users} = require("../models");
 require('dotenv').config();
 
 module.exports = (req, res, next) => {
@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
     } else {
         try {
             const {userId} = jwt.verify(authToken, process.env.JWT_SECRET_KEY);
-            User.findByPk(userId).then((user) => {
+            Users.findByPk(userId).then((user) => {
                 return res.status(401).json({errorMessage: "이미 로그인이 되어있습니다."})
             });
         } catch (err) {
