@@ -18,7 +18,7 @@ db.sequelize
 
 // sequelize model sync() 수정하기
 db.sequelize.sync({
-  alter: true,
+  force: true,
 });
 
 app.use(express.json());
