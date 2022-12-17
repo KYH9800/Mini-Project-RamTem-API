@@ -38,7 +38,7 @@ class AuthService {
       throw new Error('비밀번호가 다릅니다.');
     }
 
-    const token = jwt.sign({ userId: isUser.id }, process.env.JWT_SECRET_KEY);
+    const token = jwt.sign({ userId: isUser.userid }, process.env.JWT_SECRET_KEY);
     return { token, isUser, isImage };
   };
 }
