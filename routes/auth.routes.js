@@ -1,22 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const fs = require('fs');
 
 const AuthController = require('../controllers/auth.controller');
 const authController = new AuthController();
 
 try {
-  fs.readFileSync('uploads');
+  fs.accessSync('uploads');
 } catch (error) {
   console.log('uploads 폴더가 없어 uploads 폴더를 생성합니다.');
   fs.mkdirSync('uploads');
 }
 
-AWS.config.update({
-  accessKeyId: process.env.S3_ACCESS_KEY_ID,
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  region: 'ap-northeast-2',
-});
+// AWS.config.update({
+//   accessKeyId: process.env.S3_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+//   region: 'ap-northeast-2',
+// });
 
 // const upload = multer({
 //   storage: multerS3({
