@@ -21,9 +21,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
       },
+      userId: {
+        type: DataTypes.INTEGER,
+        references: { model: 'Users', key: 'userId' },
+        onDelete: 'CASCADE',
+      },
       src: {
         type: DataTypes.STRING,
-        unique: true,
+        allowNull: true,
       },
     },
     {

@@ -1,20 +1,17 @@
-const { Users } = require('../models');
+const { Users, Images } = require('../models');
 const AuthRepository = require('../repositories/auth.repository');
+const jwt = require('jsonwebtoken');
 
 class AuthService {
-  authRepository = new AuthRepository(Users);
+  authRepository = new AuthRepository(Users, Images);
 
-  register = async (email, nickname, password) => {
+  register = async (email, nickname, password, imageSrc) => {
     const isUser = await this.authRepository.findByEmail(email);
     if (isUser !== null) {
       if (isUser.nickname === nickname) {
-        return res
-          .status(412)
-          .json({ errorMessage: '이미 사용중인 닉네임입니다.', result: false });
+        throw new Error('이미 사용중인 닉네임입니다.');
       }
-      return res
-        .status(412)
-        .json({ errorMessage: '이미 사용중인 email입니다.', result: false });
+      throw new Error('이미 사용중인 email입니다.');
     }
 
     const registerUser = await this.authRepository.register(
@@ -22,7 +19,27 @@ class AuthService {
       nickname,
       password
     );
+
+    if (imageSrc) {
+      await this.authRepository.imageCreate(imageSrc, registerUser);
+    }
     return registerUser;
+  };
+
+  login = async (email, password) => {
+    const isUser = await this.authRepository.findByEmail(email);
+    const isImage = await this.authRepository.findByUserAndImage(isUser.userId);
+
+    if (isUser === null) {
+      throw new Error('닉네임 또는 패스워드를 확인해주세요.');
+    }
+
+    if (isUser.password !== password) {
+      throw new Error('비밀번호가 다릅니다.');
+    }
+
+    const token = jwt.sign({ userId: isUser.id }, process.env.JWT_SECRET_KEY);
+    return { token, isUser, isImage };
   };
 }
 
