@@ -40,6 +40,12 @@ module.exports = (sequelize, DataTypes) => {
       content: {
         type: DataTypes.STRING,
       },
+      image: {
+        type: DataTypes.STRING,
+      },
+      category: {
+        type: DataTypes.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

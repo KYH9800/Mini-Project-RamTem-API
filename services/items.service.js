@@ -1,54 +1,100 @@
 const ItemsRepository = require('../repositories/items.repository');
 // 생성자 주입을 통한 의존성 주입
-const { Items, ItemImages } = require('../models');
+const { Items, Comments, Users } = require('../models');
+//* dummyUserAdmin
+const userAdmin = 0;
 
 // Query를 쓰면은 대량의 데이터를 다룰 때 ORM 보다 빠르다.
 // ORM이 생산성이 좋기 떄문에 쓰는 것
 // express -> database -> express with database ->
 class ItemsService {
-  itemsRepository = new ItemsRepository(Items, ItemImages); // 생성자 주입을 통한 의존성 주입
-
-  // 이미지 업로드, // req.file, req.files
-  // uploadImage = async (file) => {
-  //   console.log('req.files: ', file); // 업로드가 어떻게 됬는지 정보들이 담겨있음
-  //   console.log('file: ', file.filename);
-
-  //   return file.filename;
-  // };
+  itemsRepository = new ItemsRepository(Items, Comments, Users); // 생성자 주입을 통한 의존성 주입
 
   // 상품 추가
-  createItem = async (title, price, content, imgFileInfo) => {
-    console.log('imgFileInfo: ', imgFileInfo);
+  createItem = async (user, title, price, content, category, imgFileInfo) => {
+    console.log('user: ', user);
     const imgPath = imgFileInfo.path;
-    console.log('imgPath: ', imgPath);
-    if (!title || !price || !content || !imgFileInfo) {
+
+    if (!title || !price || !content || !category || !imgFileInfo) {
       throw new Error('입력한 값이 바르지 않습니다.');
     }
-    // image.map((v) => v.filename);
-    const item = await this.itemsRepository.createPost(
-      title,
-      price,
-      content,
-      imgPath
-    );
 
-    return item;
+    if (userAdmin) {
+      throw new Error('관리자만 접근이 가능합니다.');
+    } else {
+      const item = await this.itemsRepository.createPost(
+        title,
+        price,
+        content,
+        category,
+        imgPath
+      );
+
+      return item;
+    }
   };
 
-  findAllPost = async () => {
-    // TODO
+  // 전체 상품 목록 조회
+  getItems = async (lastId) => {
+    const findAllItems = await this.itemsRepository.findAllItems(lastId);
+
+    return findAllItems;
   };
 
-  findPostById = async (postId) => {
-    // TODO
+  // 메인페이지 상품 목록 조회: 최상단 4개만
+  getMainItems = async () => {
+    const mainItems = await this.itemsRepository.fundAllMainItems();
+
+    return mainItems;
   };
 
-  updatePost = async (postId, password, title, content) => {
-    // TODO
+  // 상품 상세 정보 조회
+  getItemDetail = async (itemId) => {
+    const detailItem = await this.itemsRepository.fundOneItemDetail(itemId);
+
+    return detailItem;
   };
 
-  deletePost = async (postId, password) => {
-    // TODO
+  //상품 수정
+  updateItem = async (
+    user,
+    itemId,
+    title,
+    price,
+    content,
+    category,
+    imgFileInfo
+  ) => {
+    const imgPath = imgFileInfo.path;
+    const userId = user.userId;
+    console.log('imgPath: ', imgPath);
+
+    if (userAdmin) {
+      throw new Error('관리자만 접근이 가능합니다.');
+    } else {
+      const updateItem = await this.itemsRepository.updateItem(
+        userId,
+        itemId,
+        title,
+        price,
+        content,
+        category,
+        imgPath
+      );
+      return updateItem;
+    }
+  };
+
+  // 상품 삭제
+  deleteItem = async (user, itemId) => {
+    const userId = user.userId;
+    if (userAdmin) {
+      throw new Error('관리자만 접근이 가능합니다.');
+    } else {
+      const deleteItem = await this.itemsRepository.deleteItem(userId, itemId);
+
+      return deleteItem;
+    }
   };
 }
 
