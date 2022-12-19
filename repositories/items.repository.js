@@ -46,7 +46,7 @@ class ItemsRepository {
     });
 
     return allItems;
-  };
+  }; // axios.get(`/items/${lastId || 0}`)
 
   // 메인페이지 상품 목록 조회: 최상단 4개만
   fundAllMainItems = async () => {
