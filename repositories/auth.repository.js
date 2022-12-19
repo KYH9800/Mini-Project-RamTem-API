@@ -5,11 +5,12 @@ class AuthRepository {
     this.userModel = UserModel;
     this.imageModel = ImageModel;
   }
-  register = async (email, nickname, password) => {
+  register = async (email, nickname, hashedPassword, image) => {
     const registerUserData = await this.userModel.create({
       email,
       nickname,
-      password,
+      password: hashedPassword,
+      image,
     });
     return registerUserData;
   };
@@ -21,19 +22,11 @@ class AuthRepository {
     return isUser;
   };
 
-  findByUserAndImage = async (userId) => {
-    const isUser = await this.imageModel.findOne({
+  findByUserId = async (userId) => {
+    const isUser = await this.userModel.findOne({
       where: { userId },
     });
     return isUser;
-  };
-
-  imageCreate = async (image, registerUser) => {
-    const createImageData = await this.imageModel.create({
-      userId: registerUser.userId,
-      src: image,
-    });
-    return createImageData;
   };
 }
 

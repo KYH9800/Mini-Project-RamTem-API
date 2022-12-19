@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+// error 
+const {
+  errorHandler,
+  errorLogger,
+} = require('./middlewares/errors-hander.middleware');
 // 유용한 라이브러리
 const cors = require('cors');
 // router
@@ -33,6 +38,8 @@ app.use(
 );
 
 app.use('/api', routes);
+app.use(errorLogger); // Error Logger
+app.use(errorHandler); // Error Handler
 
 app.listen(port, () => {
   console.log(port, '포트로 서버가 열렸어요!');
