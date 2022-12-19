@@ -35,7 +35,7 @@ class ItemsController {
   // 전체 상품 목록 조회
   getItems = async (req, res, next) => {
     try {
-      const { lastId } = req.params;
+      const { lastId } = req.query;
       const allItems = await this.itemsService.getItems(lastId);
 
       return res.status(200).send({ data: allItems, result: true });
