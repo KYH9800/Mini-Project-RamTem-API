@@ -1,6 +1,15 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const fs = require('fs');
+
+try {
+  fs.accessSync('uploads');
+} catch (error) {
+  console.log('uploads 폴더가 없어 uploads 폴더를 생성합니다.');
+  fs.mkdirSync('uploads');
+}
+
 // error 
 const {
   errorHandler,

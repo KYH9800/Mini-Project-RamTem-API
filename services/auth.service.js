@@ -33,12 +33,12 @@ class AuthService {
 
   login = async (email, password) => {
     const isUser = await this.authRepository.findByEmail(email);
-    const checkPassword = await bcrypt.compare(password, isUser.password)
-
+    
     if (isUser === null) {
       throw new ValidationError('닉네임을 확인해주세요.');
     }
-
+    
+    const checkPassword = await bcrypt.compare(password, isUser.password)
     if (!checkPassword) {
       throw new ValidationError('비밀번호가 다릅니다.');
     }
