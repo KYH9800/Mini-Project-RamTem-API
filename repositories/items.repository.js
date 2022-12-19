@@ -8,19 +8,19 @@ class ItemsRepository {
     this.usersModel = UsersModel;
   }
 
-  createPost = async (title, price, content, category, imagePath) => {
+  createPost = async (userId, title, price, content, category, imagePath) => {
     console.log('imagePath: ', imagePath);
     if (imagePath) {
       if (Array.isArray(imagePath)) {
         throw new Error('상품의 이미지는 한장만 추가가 가능합니다.');
       } else {
         const postItem = await this.itemModel.create({
+          userId: userId,
           title: title,
           price: price,
           content: content,
           category: category,
           image: imagePath,
-          userId: 1,
         });
         return postItem;
       }

@@ -9,7 +9,7 @@ class ItemsController {
   createItem = async (req, res, next) => {
     try {
       const { title, price, content, category } = req.body;
-      const imgFileInfo = req.file;
+      const imgFileInfo = req.file.location;
       const user = res.locals.user;
 
       const createItemData = await this.itemsService.createItem(
@@ -122,6 +122,7 @@ class ItemsController {
     try {
       const { itemId } = req.params;
       const user = res.locals.user;
+      console.log('user: ', user);
       const deleteItem = await this.itemsService.deleteItem(user, itemId);
 
       return res.status(200).send({
@@ -133,7 +134,7 @@ class ItemsController {
       console.error(error);
       res.status(400).send({
         error: error.message,
-        errorMessage: '상품 수정에 실패했습니다.',
+        errorMessage: '상품 삭제에 실패했습니다.',
         result: false,
       });
     }
