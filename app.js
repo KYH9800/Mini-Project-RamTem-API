@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const port = 3000;
 const fs = require('fs');
 
@@ -10,7 +11,7 @@ try {
   fs.mkdirSync('uploads');
 }
 
-// error 
+// error
 const {
   errorHandler,
   errorLogger,

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../multer/awsMulterModules')
+const upload = require('../multer/awsMulterModules');
 
 const AuthController = require('../controllers/auth.controller');
 const authController = new AuthController();
