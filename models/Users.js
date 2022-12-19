@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.hasMany(models.Items, { foreignKey: 'userId' });
       this.hasMany(models.Comments, { foreignKey: 'userId' });
-      this.hasOne(models.Images, { foreignKey: 'userId' });
+      // this.hasOne(models.Images, { foreignKey: 'userId' });
     }
   }
 
@@ -38,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
       admin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+      },
+      image: {
+        type: DataTypes.STRING,
       },
     },
     {
