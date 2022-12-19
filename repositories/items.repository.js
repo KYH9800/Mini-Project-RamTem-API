@@ -35,7 +35,7 @@ class ItemsRepository {
     // query로 받아온 lastId로 찾은 게시글이 있으면(초기 로딩이 아닐때) 20개 받아오기
     // where.id = { [Op.lt]: req.query.lastId, 10 -> (10진수) } // Op: Operater
     // limit: 20, // 20개만 가져와라
-    //! next token: 게시글이 마지막인 경우 false를 보내줘야한다.
+    //* next token: 게시글이 마지막인 경우 false를 보내줘야한다.
     if (parseInt(lastId, 10)) {
       where.itemId = { [Op.lt]: parseInt(lastId, 10) }; // Op: Operater
     }
