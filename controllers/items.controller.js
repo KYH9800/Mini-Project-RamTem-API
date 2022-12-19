@@ -9,7 +9,12 @@ class ItemsController {
   createItem = async (req, res, next) => {
     try {
       const { title, price, content, category } = req.body;
-      const imgFileInfo = req.file.location;
+      // 기존 주소와 리사이징된 주소를 보내주는 이유는 다음과 같다.
+      // 이미지가 크거나 많으면 오래걸린다. 이미지 리사이징 시간이 조금 오래 걸릴 시
+      // thumb 폴더에 결과물이 생기지 않은 경우 대비
+      // 이를 방지하고자 임시 방편으로 기존 original 폴더 안에 이미지 원본을 보내준다.
+      const originalFile = req.file.location;
+      const resizingUrl = originalFile.replace(/\/original\//, '/thumb/');
       const user = res.locals.user;
 
       const createItemData = await this.itemsService.createItem(
@@ -18,13 +23,14 @@ class ItemsController {
         price,
         content,
         category,
-        imgFileInfo
+        resizingUrl
       );
 
       return res.status(201).send({
         data: createItemData,
         message: '상품이 추가되었습니다.',
         result: true,
+        originalFile: originalFile,
       });
     } catch (error) {
       console.error(error.message);
