@@ -42,6 +42,7 @@ class ItemsService {
 
   // 전체 상품 목록 조회
   getItems = async (lastId) => {
+    console.log('lastId in service: ', lastId);
     const findAllItems = await this.itemsRepository.findAllItems(lastId);
 
     return findAllItems;

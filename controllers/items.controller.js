@@ -36,6 +36,7 @@ class ItemsController {
   getItems = async (req, res, next) => {
     try {
       const { lastId } = req.query;
+      console.log('lastId in controller: ', lastId);
       const allItems = await this.itemsService.getItems(lastId);
 
       return res.status(200).send({ data: allItems, result: true });
