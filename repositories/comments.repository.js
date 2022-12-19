@@ -4,17 +4,11 @@ class CommentRepository {
     this.commentModel = CommentModel;
   }
 
-  // findAllComment = async () => {
-  //   const comments = await this.commentModel.findAll();
+  findCommentById = async (commentId) => {
+    const comment = await this.commentModel.findByPk(commentId);
 
-  //   return comments;
-  // };
-
-  // findCommentById = async (commentId) => {
-  //   const comment = await this.commentModel.findByPk(commentId);
-
-  //   return comment;
-  // };
+    return comment;
+  };
 
   createComment = async (itemId, content, userId) => {
     const createCommentData = await this.commentModel.create({
@@ -26,22 +20,22 @@ class CommentRepository {
     return createCommentData;
   };
 
-  // updateComment = async (commentId, password, title, content) => {
-  //   const updateCommentData = await this.commentModel.update(
-  //     { title, content },
-  //     { where: { commentId, password } }
-  //   );
+  updateComment = async (commentId, content) => {
+    const updateCommentData = await this.commentModel.update(
+      { content },
+      { where: { commentId } }
+    );
 
-  //   return updateCommentData;
-  // };
+    return updateCommentData;
+  };
 
-  // deleteComment = async (commentId, password) => {
-  //   const updateCommentData = await this.commentModel.destroy({
-  //     where: { commentId, password },
-  //   });
+  deleteComment = async (commentId) => {
+    const updateCommentData = await this.commentModel.destroy({
+      where: { commentId },
+    });
 
-  //   return updateCommentData;
-  // };
+    return updateCommentData;
+  };
 }
 
 module.exports = CommentRepository;
