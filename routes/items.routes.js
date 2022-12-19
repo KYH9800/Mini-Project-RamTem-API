@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../multer/multerModule');
+const upload = require('../multer/awsMulterModules');
 const fs = require('fs');
 
 const isLoggedin = require('../middlewares/isLoggedIn');

@@ -1,28 +1,34 @@
 const ItemsRepository = require('../repositories/items.repository');
+const AuthRepository = require('../repositories/auth.repository');
 // 생성자 주입을 통한 의존성 주입
 const { Items, Comments, Users } = require('../models');
 //* dummyUserAdmin
-const userAdmin = 0;
+// const userAdmin = 0;
 
 // Query를 쓰면은 대량의 데이터를 다룰 때 ORM 보다 빠르다.
 // ORM이 생산성이 좋기 떄문에 쓰는 것
 // express -> database -> express with database ->
 class ItemsService {
   itemsRepository = new ItemsRepository(Items, Comments, Users); // 생성자 주입을 통한 의존성 주입
+  authRepository = new AuthRepository(Users);
 
   // 상품 추가
   createItem = async (user, title, price, content, category, imgFileInfo) => {
-    console.log('user: ', user);
-    const imgPath = imgFileInfo.path;
+    const userId = user.userId;
+    const imgPath = imgFileInfo;
+
+    const userAdmin = await this.authRepository.findByUserId(userId);
+    console.log('userAdmin: ', userAdmin);
 
     if (!title || !price || !content || !category || !imgFileInfo) {
       throw new Error('입력한 값이 바르지 않습니다.');
     }
 
-    if (userAdmin) {
+    if (!userAdmin.admin) {
       throw new Error('관리자만 접근이 가능합니다.');
     } else {
       const item = await this.itemsRepository.createPost(
+        userId,
         title,
         price,
         content,
@@ -67,9 +73,11 @@ class ItemsService {
   ) => {
     const imgPath = imgFileInfo.path;
     const userId = user.userId;
-    console.log('imgPath: ', imgPath);
 
-    if (userAdmin) {
+    const userAdmin = await this.authRepository.findByUserId(userId);
+    console.log('userAdmin: ', userAdmin);
+
+    if (!userAdmin.admin) {
       throw new Error('관리자만 접근이 가능합니다.');
     } else {
       const updateItem = await this.itemsRepository.updateItem(
@@ -87,8 +95,11 @@ class ItemsService {
 
   // 상품 삭제
   deleteItem = async (user, itemId) => {
-    const userId = user.userId;
-    if (userAdmin) {
+    const userId = user.userId; // 이걸로 user admin 찾아오기
+
+    const userAdmin = await this.authRepository.findByUserId(userId);
+
+    if (!userAdmin.admin) {
       throw new Error('관리자만 접근이 가능합니다.');
     } else {
       const deleteItem = await this.itemsRepository.deleteItem(userId, itemId);
