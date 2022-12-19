@@ -5,7 +5,7 @@ const {
   ValidationError,
   InvalidParamsError,
 } = require('../exceptions/index.exception');
-const bcrypt = require("bcrypt")
+const bcrypt = require('bcrypt');
 
 class AuthService {
   authRepository = new AuthRepository(Users, Images);
@@ -19,7 +19,7 @@ class AuthService {
       throw new ValidationError('이미 사용중인 email입니다.');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 6)
+    const hashedPassword = await bcrypt.hash(password, 6);
 
     const registerUser = await this.authRepository.register(
       email,
@@ -33,12 +33,12 @@ class AuthService {
 
   login = async (email, password) => {
     const isUser = await this.authRepository.findByEmail(email);
-    
+
     if (isUser === null) {
       throw new ValidationError('닉네임을 확인해주세요.');
     }
-    
-    const checkPassword = await bcrypt.compare(password, isUser.password)
+
+    const checkPassword = await bcrypt.compare(password, isUser.password);
     if (!checkPassword) {
       throw new ValidationError('비밀번호가 다릅니다.');
     }
