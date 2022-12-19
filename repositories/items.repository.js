@@ -46,7 +46,7 @@ class ItemsRepository {
       order: [['createdAt', 'DESC']],
     });
 
-    console.log(allItems.length);
+    console.log('allItems: ', allItems.length);
     return allItems;
   };
 
