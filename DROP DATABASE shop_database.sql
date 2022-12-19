@@ -1,0 +1,2 @@
+DROP DATABASE shop_database;
+SHOW DATABASES;

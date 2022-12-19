@@ -1,6 +1,20 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const fs = require('fs');
+
+try {
+  fs.accessSync('uploads');
+} catch (error) {
+  console.log('uploads 폴더가 없어 uploads 폴더를 생성합니다.');
+  fs.mkdirSync('uploads');
+}
+
+// error 
+const {
+  errorHandler,
+  errorLogger,
+} = require('./middlewares/errors-hander.middleware');
 // 유용한 라이브러리
 const cors = require('cors');
 // router
@@ -18,7 +32,7 @@ db.sequelize
 
 // sequelize model sync() 수정하기
 db.sequelize.sync({
-  alter: true,
+  force: false,
 });
 
 app.use(express.json());
@@ -33,6 +47,8 @@ app.use(
 );
 
 app.use('/api', routes);
+app.use(errorLogger); // Error Logger
+app.use(errorHandler); // Error Handler
 
 app.listen(port, () => {
   console.log(port, '포트로 서버가 열렸어요!');
