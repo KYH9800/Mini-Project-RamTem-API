@@ -18,7 +18,7 @@ class AuthController {
         .json({ errorMessage: '패스워드가 일치하지 않습니다.' });
     }
     try {
-      await this.authService.register(email, nickname, password, resizingUrl);
+      await this.authService.register(email, nickname, password, originalImage);
       return res.status(201).json({
         message: '회원가입 성공',
         result: true,
