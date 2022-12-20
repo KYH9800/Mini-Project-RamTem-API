@@ -72,8 +72,6 @@ class ItemsService {
     category,
     imgFileInfo
   ) => {
-    const imgPath = imgFileInfo;
-    console.log('imgPath: ', imgPath);
     const userId = user.userId;
 
     const userAdmin = await this.authRepository.findByUserId(userId);
@@ -82,16 +80,28 @@ class ItemsService {
     if (!userAdmin.admin) {
       throw new Error('관리자만 접근이 가능합니다.');
     } else {
-      const updateItem = await this.itemsRepository.updateItem(
-        userId,
-        itemId,
-        title,
-        price,
-        content,
-        category,
-        imgPath
-      );
-      return updateItem;
+      if (imgFileInfo) {
+        const updateItem = await this.itemsRepository.updateItem(
+          userId,
+          itemId,
+          title,
+          price,
+          content,
+          category,
+          imgFileInfo.location
+        );
+        return updateItem;
+      } else {
+        const updateItem = await this.itemsRepository.updateItem(
+          userId,
+          itemId,
+          title,
+          price,
+          content,
+          category
+        );
+        return updateItem;
+      }
     }
   };
 
