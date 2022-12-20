@@ -95,7 +95,7 @@ class ItemsController {
   updateItem = async (req, res, next) => {
     try {
       const { itemId } = req.params;
-      const imgFileInfo = req.file;
+      const imgFileInfo = req.file.location;
       const { title, price, content, category } = req.body;
       const user = res.locals.user;
 
