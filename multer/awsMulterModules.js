@@ -3,6 +3,7 @@ const multer = require('multer');
 const AWS = require('aws-sdk');
 const multerS3 = require('multer-s3');
 const path = require('path');
+console.log('path: ', path);
 
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
@@ -17,6 +18,7 @@ module.exports = multer({
     s3: new AWS.S3(), // config 통해 접근
     bucket: 'kyh-my-bucket', // 나의 버킷 이름
     key(req, file, cb) {
+      console.log('aws multer file: ', file);
       // original 폴더 안에 업로드한 파일을 넣을 것이다.
       // 이름이 겹치지 않게 파일 이름에 타임스템프를 더해준다.
       // 이렇게 s3 버켓에 저장한다.
