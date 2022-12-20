@@ -23,7 +23,7 @@ class ItemsController {
         price,
         content,
         category,
-        resizingUrl
+        originalFile
       );
 
       return res.status(201).send({
