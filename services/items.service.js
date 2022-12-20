@@ -72,7 +72,8 @@ class ItemsService {
     category,
     imgFileInfo
   ) => {
-    const imgPath = imgFileInfo.path;
+    const imgPath = imgFileInfo;
+    console.log('imgPath: ', imgPath);
     const userId = user.userId;
 
     const userAdmin = await this.authRepository.findByUserId(userId);
