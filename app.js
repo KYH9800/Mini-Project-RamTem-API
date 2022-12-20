@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const morgan = require('morgan');
 const port = 3000;
 const fs = require('fs');
 
@@ -38,6 +39,8 @@ db.sequelize.sync({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // content type이 urlencoded type의 경우 parser 해준다
+
+app.use(morgan('combined'));
 
 // Cross Origin Resource Sharing
 app.use(
