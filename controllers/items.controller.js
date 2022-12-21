@@ -13,7 +13,8 @@ class ItemsController {
       // 이미지가 크거나 많으면 오래걸린다. 이미지 리사이징 시간이 조금 오래 걸릴 시
       // thumb 폴더에 결과물이 생기지 않은 경우 대비
       // 이를 방지하고자 임시 방편으로 기존 original 폴더 안에 이미지 원본을 보내준다.
-      const originalFile = req.file.location;
+      const originalFile = req.file.location; // aws
+      // const originalFile = req.file; // 개발모드
       const resizingUrl = originalFile.replace(/\/original\//, '/thumb/');
       const user = res.locals.user;
 
@@ -23,7 +24,7 @@ class ItemsController {
         price,
         content,
         category,
-        originalFile
+        resizingUrl
       );
 
       return res.status(201).send({

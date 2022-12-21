@@ -81,6 +81,11 @@ class ItemsService {
       throw new Error('관리자만 접근이 가능합니다.');
     } else {
       if (imgFileInfo) {
+        const imgFileInfoLocation = imgFileInfo.location;
+        const resizingUrl = imgFileInfoLocation.replace(
+          /\/original\//,
+          '/thumb/'
+        );
         const updateItem = await this.itemsRepository.updateItem(
           userId,
           itemId,
@@ -88,7 +93,7 @@ class ItemsService {
           price,
           content,
           category,
-          imgFileInfo.location
+          resizingUrl
         );
         return updateItem;
       } else {

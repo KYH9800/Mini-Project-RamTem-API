@@ -8,13 +8,6 @@ const isLoggedin = require('../middlewares/isLoggedIn');
 const ItemsController = require('../controllers/items.controller');
 const itemsController = new ItemsController();
 
-try {
-  fs.accessSync('uploads');
-} catch (error) {
-  console.log('uploads 폴더가 없으므로 생성합니다.');
-  fs.mkdirSync('uploads');
-}
-
 // HTTP /api/items
 router.post(
   '/',
