@@ -133,6 +133,30 @@ class ItemsRepository {
 
     return deleteItem;
   };
+
+  /**
+   * 검색 기능
+   */
+  searchItems = async (title) => {
+    const searchItems = await this.itemModel.findAll({
+      where: {
+        [Op.or]: [{ title: { [Op.like]: `%${title}%` } }],
+      },
+    });
+
+    return searchItems;
+  };
+
+  /**
+   * 카테고리 기능구현
+   */
+  categoryItems = async (category) => {
+    const date = await this.itemModel.findAll({
+      where: { category },
+    });
+
+    return date;
+  };
 }
 
 module.exports = ItemsRepository;
