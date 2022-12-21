@@ -157,8 +157,9 @@ class ItemsController {
       const searchItems = await this.itemsService.searchItems(title);
       console.log('controller searchItems', searchItems);
 
-      return res.status(200).json({
-        data: searchItems,
+      return res.status(searchItems.status).json({
+        data: searchItems.result,
+        message: searchItems.message,
       });
     } catch (error) {
       console.error(error);
@@ -178,8 +179,9 @@ class ItemsController {
     try {
       const data = await this.itemsService.categoryItems(category);
 
-      return res.status(200).json({
-        data: data,
+      return res.status(data.status).json({
+        data: data.result,
+        message: data.message,
       });
     } catch (error) {
       console.error(error);

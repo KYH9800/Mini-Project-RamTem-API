@@ -129,11 +129,19 @@ class ItemsService {
   searchItems = async (title) => {
     const searchItems = await this.itemsRepository.searchItems(title);
 
-    if (searchItems.length === 0) {
-      throw new Error('DB search Error');
+    if (!searchItems) {
+      return {
+        state: 400,
+        result: false,
+        message: '검색 결과가 존재하지 않습니다.',
+      };
     }
 
-    return searchItems;
+    return {
+      result: searchItems,
+      state: 200,
+      message: '검색 결과가 존재합니다.',
+    };
   };
 
   // 카테고리 기능구현
@@ -141,10 +149,14 @@ class ItemsService {
     const data = await this.itemsRepository.categoryItems(category);
 
     if (!data) {
-      return { result: false, message: '검색 결과가 존재하지 않습니다.' };
+      return {
+        state: 400,
+        result: false,
+        message: '카테고리가 존재하지 않습니다.',
+      };
     }
 
-    return data;
+    return { result: data, state: 200, message: '카테고리 결과가 존재합니다.' };
   };
 }
 
