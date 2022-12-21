@@ -15,7 +15,9 @@ class CommentsController {
         userId
       );
 
-      res.status(201).json({ result: "true", message: "댓글이 작성 되었습니다." });
+      res
+        .status(201)
+        .json({ result: 'true', message: '댓글이 작성 되었습니다.' });
     } catch (error) {
       console.log(error);
       res
@@ -28,14 +30,20 @@ class CommentsController {
     const { commentId } = req.params;
     const { content } = req.body;
     const { userId } = res.locals.user;
-    
+
+    console.log('commentId: ', commentId);
+    console.log('content: ', content);
+    console.log('userId: ', userId);
+
     try {
       const updateComment = await this.commentService.updateComment(
         commentId,
         content,
         userId
       );
-      res.status(200).json({ result: "true", message: "댓글이 수정 되었습니다."});
+      res
+        .status(200)
+        .json({ result: 'true', message: '댓글이 수정 되었습니다.' });
     } catch (error) {
       console.log(error);
       if (error.code) {
@@ -59,7 +67,9 @@ class CommentsController {
         userId
       );
 
-      res.status(200).json({ result: "true", message: "댓글이 삭제 되었습니다." });
+      res
+        .status(200)
+        .json({ result: 'true', message: '댓글이 삭제 되었습니다.' });
     } catch (error) {
       console.log(error);
       if (error.code) {

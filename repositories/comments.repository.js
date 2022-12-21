@@ -21,6 +21,9 @@ class CommentRepository {
   };
 
   updateComment = async (commentId, content) => {
+    console.log('commentId: ', commentId);
+    console.log('content: ', content);
+
     const updateCommentData = await this.commentModel.update(
       { content },
       { where: { commentId } }
