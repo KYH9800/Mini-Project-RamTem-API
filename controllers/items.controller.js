@@ -148,9 +148,7 @@ class ItemsController {
     }
   };
 
-  /**
-   * 검색 기능
-   */
+  // 검색 기능
   itemsSearch = async (req, res, next) => {
     const { title } = req.query;
     console.log('controller search', title);
@@ -171,19 +169,17 @@ class ItemsController {
     }
   };
 
-  /**
-   * 카테고리 기능구현
-   */
+  // 카테고리 기능구현
   categoryItems = async (req, res, next) => {
     const { category } = req.params;
 
-    console.log('controller sadfsdf', category);
+    console.log('controller category: ', category);
 
     try {
       const data = await this.itemsService.categoryItems(category);
 
       return res.status(200).json({
-        data,
+        data: data,
       });
     } catch (error) {
       console.error(error);
