@@ -147,6 +147,52 @@ class ItemsController {
       });
     }
   };
+
+  /**
+   * 검색 기능
+   */
+  itemsSearch = async (req, res, next) => {
+    const { title } = req.query;
+    console.log('controller search', title);
+
+    try {
+      const searchItems = await this.itemsService.searchItems(title);
+      console.log('controller searchItems', searchItems);
+
+      return res.status(200).json({
+        data: searchItems,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({
+        errorMessage: '상품 목록 조회에 실패하였습니다.',
+        result: false,
+      });
+    }
+  };
+
+  /**
+   * 카테고리 기능구현
+   */
+  categoryItems = async (req, res, next) => {
+    const { category } = req.params;
+
+    console.log('controller sadfsdf', category);
+
+    try {
+      const data = await this.itemsService.categoryItems(category);
+
+      return res.status(200).json({
+        data,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({
+        errorMessage: '상품 목록 조회에 실패하였습니다.',
+        result: false,
+      });
+    }
+  };
 }
 
 module.exports = ItemsController;

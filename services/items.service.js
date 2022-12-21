@@ -124,6 +124,32 @@ class ItemsService {
       return deleteItem;
     }
   };
+
+  /**
+   * 검색 기능
+   */
+  searchItems = async (title) => {
+    const searchItems = await this.itemsRepository.searchItems(title);
+
+    if (searchItems.length === 0) {
+      throw new Error('DB search Error');
+    }
+
+    return searchItems;
+  };
+
+  /**
+   * 카테고리 기능구현
+   */
+  categoryItems = async (category) => {
+    const data = await this.itemsRepository.categoryItems(category);
+
+    if (data.length === 0) {
+      throw new Error('DB category search Error');
+    }
+
+    return data;
+  };
 }
 
 module.exports = ItemsService;
