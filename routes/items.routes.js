@@ -25,10 +25,8 @@ router.patch(
   itemsController.updateItem
 ); // 상품 수정
 router.delete('/:itemId', isLoggedin, itemsController.deleteItem); // 상품 삭제
-
 // 검색 기능
 router.get('/search', itemsController.itemsSearch);
-
 //카테고리
 router.get('/category/:category', itemsController.categoryItems);
 
