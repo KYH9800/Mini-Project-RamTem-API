@@ -178,6 +178,8 @@ class ItemsController {
 
     try {
       const data = await this.itemsService.categoryItems(category);
+      console.log('data: ', data);
+      console.log('data.status: ', data.status);
 
       return res.status(data.status).json({
         data: data.result,
