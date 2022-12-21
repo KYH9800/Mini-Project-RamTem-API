@@ -39,6 +39,17 @@ class AuthController {
       next(error);
     }
   };
+
+  tokenCheck = async (req, res, next) => {
+    const user = res.locals.user;
+
+    try {
+      const data = await this.authService.findTokenUser(user);
+      return res.status(201).json({ result: data });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 module.exports = AuthController;
