@@ -60,6 +60,22 @@ class AuthService {
     };
     return data;
   };
+
+  findTokenUser = async (user) => {
+    const UserData = await this.authRepository.findByUserId(user.userId);
+
+    if (UserData === null) {
+      throw new Error('유저가 없습니다.');
+    }
+    const data = {
+      result: true,
+      admin: UserData.admin,
+      email: UserData.email,
+      nickname: UserData.nickname,
+      imageSrc: UserData.image,
+    };
+    return data;
+  };
 }
 
 module.exports = AuthService;
