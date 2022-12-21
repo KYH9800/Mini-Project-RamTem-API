@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const morgan = require('morgan');
-const port = 3001;
+const port = 3000;
 const fs = require('fs');
 
 try {
