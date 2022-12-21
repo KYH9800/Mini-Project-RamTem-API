@@ -131,7 +131,7 @@ class ItemsService {
 
     if (!searchItems) {
       return {
-        state: 400,
+        status: 400,
         result: false,
         message: '검색 결과가 존재하지 않습니다.',
       };
@@ -139,7 +139,7 @@ class ItemsService {
 
     return {
       result: searchItems,
-      state: 200,
+      status: 200,
       message: '검색 결과가 존재합니다.',
     };
   };
@@ -150,13 +150,17 @@ class ItemsService {
 
     if (!data) {
       return {
-        state: 400,
+        status: 400,
         result: false,
         message: '카테고리가 존재하지 않습니다.',
       };
     }
 
-    return { result: data, state: 200, message: '카테고리 결과가 존재합니다.' };
+    return {
+      result: data,
+      status: 200,
+      message: '카테고리 결과가 존재합니다.',
+    };
   };
 }
 
