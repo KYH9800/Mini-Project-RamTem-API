@@ -16,6 +16,10 @@ class CommentService {
   updateComment = async (commentId, content, userId) => {
     const findComment = await this.commentRepository.findCommentById(commentId);
 
+    console.log('commentId: ', commentId);
+    console.log('content: ', content);
+    console.log('userId: ', userId);
+
     if (userId !== findComment.userId) {
       throw { message: '작성자가 다릅니다.', code: 400, result: 'false' };
     } else {
