@@ -28,7 +28,6 @@ module.exports = multer({
         if (value === ' ') {
           value = '-';
         }
-        // console.log('filiname value: ', value);
         newFilename += value;
       }
       // console.log('console.log filiname in multerS3: ', newFilename);
