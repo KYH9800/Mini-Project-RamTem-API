@@ -17,6 +17,7 @@ module.exports = multer({
   storage: multerS3({
     s3: new AWS.S3(), // config 통해 접근
     bucket: 'kyh-my-bucket', // 나의 버킷 이름
+    //! 이미지 url에 접근 시 다운로드 방식이 아닌 바로 이미지를 띄워줄수 있게 설정 (구글링)
     // Fields: {
     //   key: req.queery.file,
     //   ContentType: 'image/png',
