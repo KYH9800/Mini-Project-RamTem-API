@@ -17,6 +17,10 @@ module.exports = multer({
   storage: multerS3({
     s3: new AWS.S3(), // config 통해 접근
     bucket: 'kyh-my-bucket', // 나의 버킷 이름
+    Fields: {
+      key: req.queery.file,
+      ContentType: 'image/png',
+    },
     key(req, file, cb) {
       //! string.trim 통해 파일명의 공백 제거 / 참고: https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html
       // original 폴더 안에 업로드한 파일을 넣을 것이다.
